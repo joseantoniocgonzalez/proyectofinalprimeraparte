@@ -9,6 +9,6 @@ El objetivo fundamental del proyecto es la realización de una página web aloja
 
 Sería muy interesante que buscaras una API (o APIs) de algún tema que te interese, para que te resulte más atractivo realizar la práctica. Al entender más del tema será más fácil entender la documentación y utilizar las distintas funciones que te ofrece.
 
-> En este caso estamos usando: TICKETMASTER API -> https://developer.ticketmaster.com/
+> Voy a utilizar : TICKETMASTER API -> https://developer.ticketmaster.com/
 
 
