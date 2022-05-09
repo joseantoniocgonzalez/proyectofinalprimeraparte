@@ -27,6 +27,7 @@ for info in dic_grupos_champions_league["data"]["league"]:
     if info["name"].startswith("Gr"):
         lista_grupos.append(info["name"][-1:])
         payload.pop('country',84)
+
 ##Información competiciones
 r_info_competiciones=requests.get(URL_BASE+'competitions/list.json',params=payload)
 dic_info_competiciones=r_info_competiciones.json()
@@ -41,4 +42,23 @@ print("Bienvenido al programa")
 print()
 a=input("Si quieres ver los grupos de la champions pulsa enter ")
 if a=="":
- 
+    ##MOSTRAR GRUPOS
+    print("                             UEFA CHAMPIONS LEAGUE")
+    print()
+    for grupos in lista_grupos:
+        payload["group"]=grupos
+        r_champions_league=requests.get(URL_BASE+'leagues/table.json',params=payload)
+        dic_champions_league=r_champions_league.json()
+        datos=[]
+        for info in dic_champions_league["data"]["table"]:
+            lista=[]
+            lista=[info["rank"],info["name"],info["points"],info["goal_diff"]]
+            datos.append(lista)
+        print()
+        print("                          GRUPO %s" % grupos)
+        print(tabulate(datos,headers=['Puesto','Equipo','Puntos','Goal Average'],tablefmt='fancy_grid',stralign='center',floatfmt='.0f'))
+        payload.pop('group',grupos)
+
+print()
+print("Fin del programa")
+print()
