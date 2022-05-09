@@ -27,3 +27,18 @@ for info in dic_grupos_champions_league["data"]["league"]:
     if info["name"].startswith("Gr"):
         lista_grupos.append(info["name"][-1:])
         payload.pop('country',84)
+##Información competiciones
+r_info_competiciones=requests.get(URL_BASE+'competitions/list.json',params=payload)
+dic_info_competiciones=r_info_competiciones.json()
+for info in dic_info_competiciones["data"]["competition"]:
+    if info["name"]=="Champions League" and info["federations"][0]["name"]=="UEFA":
+        payload["competition_id"]=info["id"]
+
+
+#PROGRAMA
+print()
+print("Bienvenido al programa")
+print()
+a=input("Si quieres ver los grupos de la champions pulsa enter ")
+if a=="":
+ 
