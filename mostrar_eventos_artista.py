@@ -1,4 +1,4 @@
-#Programa en python que muestra los eventos internacionales según la palabra clave (artista) que introduzca el usuario. 
+#En este programa nos mostrara  los eventos internacionales según la palabra clave (artista) que introduzca el usuario. 
 
 #Para ello necesitas autentificarte con la API key.
 # Esta API utiliza la respuesta json.
