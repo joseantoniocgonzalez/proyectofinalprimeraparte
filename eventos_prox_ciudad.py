@@ -1,4 +1,4 @@
-#Programa en python que muestra la sala, el lugar y los artistas que van a actuar proximamente en España con las fechas indicadas. 
+#En este programa nos  la sala, el lugar y los artistas que van a actuar  en España con las fechas indicadas. 
 
 #Para ello necesitas autentificarte con la API key.
 # Esta API utiliza la respuesta json.
@@ -24,7 +24,7 @@ url_base="https://app.ticketmaster.com/discovery/v2/"
 key=os.environ["apikey"]
 #Guardamos en una variable el código del país, en esta caso España
 code='ES'
-#Vamos a crear un diccionario que guarde nuestros parámetros
+#Creamos diccionario que guarde nuestros parámetros
 payload = {'apikey':key,'countryCode':code}
 
 #Hacemos la petición, guardandola en una variable r, añadiendo los parametros que necesitamos usando params e indicando el diccionario creado previamente.
