@@ -35,6 +35,7 @@ if p.status_code == 200:
     
 #Obtener la lista de codigos de paises, sacada de SUPPORTED COUNTRY CODES ("Esta lista la podemos leer en un fichero aparte si queremos")
 
+
 codigos_paises=["US (United States Of America)",
 "AD (Andorra)",
 "AI (Anguilla)",
@@ -118,7 +119,6 @@ codigos_paises=["US (United States Of America)",
 "AE (United Arab Emirates)",
 "UY (Uruguay)",
 "VE (Venezuela)"]
-
 
 
 #Función que recibe el código del país y devuelve el nombre, la sala, la dirección, la fecha y la url
