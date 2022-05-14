@@ -1,13 +1,16 @@
-#En este programa nos  la sala, el lugar y los artistas que van a actuar  en España con las fechas indicadas. 
+#Con este programa en python podremos ver  la sala, el lugar y los artistas que tendran proximamente un concierto  en España con las fechas indicadas. 
 
-#Para ello necesitas autentificarte con la API key.
+#Para ello necesitamos  autentificarnos con la API key.
 # Esta API utiliza la respuesta json.
 
+
+
 #Vamos a usar variables de entorno para guardar nuestra key.
-# Deremos exportar la clave de nuestra cuenta en una variable de entorno desde la terminal:
+# Deremos exportar la clave de nuestra cuenta en una variable de entorno en  la terminal:
 # export key ="**************************"
 
-#Lo primero es importar la librería requests
+
+#importamos  la librería requests
 import requests
 #Importamos la libreria json
 import json
@@ -24,14 +27,15 @@ url_base="https://app.ticketmaster.com/discovery/v2/"
 key=os.environ["apikey"]
 #Guardamos en una variable el código del país, en esta caso España
 code='ES'
-#Creamos diccionario que guarde nuestros parámetros
+#Vamos a crear un diccionario que guarde nuestros parámetros
 payload = {'apikey':key,'countryCode':code}
 
 #Hacemos la petición, guardandola en una variable r, añadiendo los parametros que necesitamos usando params e indicando el diccionario creado previamente.
 r=requests.get(url_base+'venues.json',params=payload)
 
 
-#Función que recibe un identificador del lugar y devuelve el nombre del evento y la fecha en la que está previsto.
+
+#Con esta funcion se recibe un identificador del lugar y devuelve el nombre del evento y la fecha en la que está previsto.
 
 def mostrar_artista_fecha (id_lugar):
     parametros = {'apikey':key,'venueId':id_lugar}
