@@ -14,6 +14,8 @@ import json
 #Importar la librería os que va leer nuestra variable de entorno
 import os
 
+
+
 #Importar las fechas
 from datetime import datetime
 
@@ -33,7 +35,7 @@ if p.status_code == 200:
         total_paginas=doc["page"].get("totalPages")
 
     
-#Obtener la lista de codigos de paises, sacada de SUPPORTED COUNTRY CODES ("Esta lista la podemos leer en un fichero aparte si queremos")
+#Obtener la lista de codigos de paises, sacada de SUPPORTED COUNTRY CODES 
 
 
 codigos_paises=["US (United States Of America)",
@@ -121,7 +123,9 @@ codigos_paises=["US (United States Of America)",
 "VE (Venezuela)"]
 
 
-#Función que recibe el código del país y devuelve el nombre, la sala, la dirección, la fecha y la url
+
+
+#recibimos el código del país y nos devuelve el nombre, la sala, la dirección, la fecha y la url
 def mostrar_evento (codigo_pais,numero_pagina):
     #Creamos el diccionario con los parámetros necesarios
     payload = {'apikey':key,'countryCode':codigo_pais,'page':numero_pagina}
