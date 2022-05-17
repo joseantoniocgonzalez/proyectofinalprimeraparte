@@ -1,4 +1,4 @@
-#En este programa nos mostrara  los eventos internacionales del artista solicitado por el usuario (que sera la palabra clave) . 
+#Programa en python que muestra los eventos internacionales según la palabra clave (artista) que introduzca el usuario. 
 
 #Para ello necesitas autentificarte con la API key.
 # Esta API utiliza la respuesta json.
@@ -7,9 +7,6 @@
 # Deremos exportar la clave de nuestra cuenta en una variable de entorno desde la terminal:
 # export key ="**************************"
 
-
-
-
 #Lo primero es importar la librería requests
 import requests
 #Importamos la libreria json
@@ -17,21 +14,11 @@ import json
 #Importar la librería os que va leer nuestra variable de entorno
 import os
 
-
-
-
 #Importar las fechas
 from datetime import datetime
 
-
-
-
 #Guardamos la url base
 url_base="https://app.ticketmaster.com/discovery/v2/"
-
-
-
-
 
 #En una variable key, guardamos por el diccionario os.environ nuestra key
 key=os.environ["apikey"]
@@ -84,7 +71,7 @@ def ev_artista (palabra_clave):
                     direccion.append("NO ESPECIFICADA")
                 #FECHAS
                 fechas.append(elem["dates"]["start"]["localDate"])
-                #HORAS: la hora no siempre esta fijada  que nos aseguramos de ello.
+                #HORAS: A veces la hora no esta especificada así que nos aseguramos de ello.
                 if "localTime" in elem["dates"]["start"]:
                     horas.append(elem["dates"]["start"]["localTime"])
                 else:
@@ -111,4 +98,3 @@ else:
         fecha_cambiada = datetime.strptime(fecha, '%Y-%m-%d')
         fecha_str = datetime.strftime(fecha_cambiada, '%d/%m/%Y')
         print("\n\nNOMBRE:",nombre,"\nPAIS:",pais,"\nCIUDAD:",ciudad,"\nSALA:",sala,"\nDIRECCION:",direc,"\nFECHA:",fecha_str,"\nHORA:",hora,"\nURL COMPRAR ENTRADA:",urlsala,"\n",url)
-
