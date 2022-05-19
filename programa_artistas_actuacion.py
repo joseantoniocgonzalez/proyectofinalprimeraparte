@@ -15,7 +15,6 @@ url_base="https://app.ticketmaster.com/discovery/v2/"
 
 #Guardamos nuestra key 
 key=os.environ["key"]
-
 #Función que recibe el nombre del artista y devuelve todos los eventos proximos del mismo
 def ev_artista (palabra_clave):
     #Creamos el diccionario con los parámetros necesarios
