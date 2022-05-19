@@ -1,16 +1,13 @@
 #Programa en python que muestra los eventos internacionales según la palabra clave (artista) que introduzca el usuario. 
 
 #Para ello necesitas autentificarte con la API key.
-# Esta API utiliza la respuesta json.
-
-#Vamos a usar variables de entorno para guardar nuestra key.
 # Deremos exportar la clave de nuestra cuenta en una variable de entorno desde la terminal:
 # exportkey ="**************************"
 
 #Función que recibe el nombre del artista y devuelve todos los eventos proximos del mismo
 def ev_artista (palabra_clave):
     #Creamos el diccionario con los parámetros necesarios
-    payload = {'apikey':key,'keyword':palabra_clave}
+    payload = {'key':key,'keyword':palabra_clave}
     #Guardamos la petición en una variable(urlbase + diccionario con parametros)
     r=requests.get(url_base+'events',params=payload)
     #Inicializamos las listas que vamos a usar
