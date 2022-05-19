@@ -35,7 +35,7 @@ key=os.environ["key"]
 
 key=os.environ["key"]
 payload={'apikey':key,'countryCode':'ES','size':20,'sort':'date,desc'}
-r=requests.get(URL_BASE+'events.json',params=payload)
+r=requests.get(url_base+'events.json',params=payload)
 
 
 
