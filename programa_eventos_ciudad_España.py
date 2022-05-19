@@ -38,8 +38,15 @@ payload={'apikey':key,'countryCode':'ES','size':20,'sort':'date,desc'}
 r=requests.get(url_base+'events.json',params=payload)
 
 
+#Guardamos en una variable el código del país, en esta caso como queremos poner los eventos de españa pondremos 'ES'
+code='ES'
+#Vamos a crear un diccionario que guarde nuestros parámetros
+payload = {'apikey':key,'countryCode':code}
 
-#Con esta funcion se recibe un identificador del lugar y devuelve el nombre del evento y la fecha en la que está previsto.
+#Guardamos en una variable la peticion, y añadimos los parametros tambien.
+r=requests.get(url_base+'venues.json',params=payload)
+
+#Función que recibe un identificador del lugar y devuelve el nombre del evento y la fecha en la que está previsto.
 
 def mostrar_artista_fecha (id_lugar):
     parametros = {'apikey':key,'venueId':id_lugar}
@@ -54,14 +61,12 @@ def mostrar_artista_fecha (id_lugar):
         filtro=[nombres,fechas]
         return filtro
 
-
-#Para asegurarnos que no hay errores consultamos el estado de la petición.
-#Inicializamos las listas que nos hacen falta
+#Vamos a consultar el estado de la peticion para comprobar que no hay errores.
+#Inicializamos las listas necesarias.
 salas=[]
 lugares=[]
 identificadores=[]
 if r.status_code == 200:
-    #Guardamos el contenido en una variable leido por json.
     doc = r.json()
     for lugar in doc["_embedded"]["venues"]:
         salas.append(lugar["name"])
@@ -77,5 +82,4 @@ if r.status_code == 200:
             for nom,fecha in zip((mostrar_artista_fecha(ident)[0]),(mostrar_artista_fecha(ident)[1])):
                 fecha_cambiada = datetime.strptime(fecha, '%Y-%m-%d')
                 fecha_str = datetime.strftime(fecha_cambiada, '%d/%m/%Y')
-                print("- ",nom,"Fecha: ",fecha_str)        
-
+                print("- ",nom,"Fecha: ",fecha_str) 
