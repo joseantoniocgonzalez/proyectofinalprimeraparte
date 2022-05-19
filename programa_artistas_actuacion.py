@@ -5,7 +5,7 @@
 
 #Vamos a usar variables de entorno para guardar nuestra key.
 # Deremos exportar la clave de nuestra cuenta en una variable de entorno desde la terminal:
-# export key ="**************************"
+# exportkey ="**************************"
 
 
 #importamos  la librería requests
@@ -23,7 +23,7 @@ from datetime import datetime
 url_base="https://app.ticketmaster.com/discovery/v2/"
 
 #En una variable key, guardamos por el diccionario os.environ nuestra key
-key=os.environ["apikey"]
+key=os.environ["key"]
 
 #Función que recibe el nombre del artista y devuelve todos los eventos proximos del mismo
 def ev_artista (palabra_clave):
