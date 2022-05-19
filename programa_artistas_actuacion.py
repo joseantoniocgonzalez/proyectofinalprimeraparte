@@ -1,4 +1,6 @@
 
+
+
 import requests
 import os
 URL_BASE="https://app.ticketmaster.com/discovery/v2/"
