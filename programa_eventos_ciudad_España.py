@@ -31,9 +31,8 @@ from datetime import datetime
 url_base="https://app.ticketmaster.com/discovery/v2/"
 
 #En una variable key, guardamos por el diccionario os.environ nuestra key
-key=os.environ["key"]
+key=os.environ["exportkey"]
 
-key=os.environ["key"]
 payload={'apikey':key,'countryCode':'ES','size':20,'sort':'date,desc'}
 r=requests.get(url_base+'events.json',params=payload)
 

@@ -23,7 +23,7 @@ from datetime import datetime
 url_base="https://app.ticketmaster.com/discovery/v2/"
 
 #En una variable key, guardamos por el diccionario os.environ nuestra key
-key=os.environ["key"]
+key=os.environ["exportkey"]
 
 
 #Obtener el total de páginas:
