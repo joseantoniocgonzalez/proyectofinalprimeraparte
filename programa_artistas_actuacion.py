@@ -8,23 +8,11 @@
 # exportkey ="**************************"
 
 
-#importamos  la librería requests
 import requests
-#Importamos la libreria json
-import json
-#Importar la librería os que va leer nuestra variable de entorno
 import os
-
-
-#Importar las fechas
-from datetime import datetime
-
-#Guardamos la url base
-url_base="https://app.ticketmaster.com/discovery/v2/"
-
-#En una variable key, guardamos por el diccionario os.environ nuestra key
+URL_BASE="https://app.ticketmaster.com/discovery/v2/"
 key=os.environ["key"]
-
+payload={'apikey':key,'size':50}
 opcion=int(input('''Selecciona un tipo de búsqueda:
 1. Eventos
 2. Atracción (Artista, grupo, equipo...)
