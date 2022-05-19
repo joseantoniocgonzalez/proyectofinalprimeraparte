@@ -1,89 +1,104 @@
-#Programa en python que muestra los eventos internacionales según la palabra clave (artista) que introduzca el usuario. 
 
-#Importamos la librería requests
 import requests
-#Importamos la libreria json
-import json
-#Importamos la librería os que va leer nuestra variable de entorno
 import os
-
-#Importamos las fechas
-from datetime import datetime
-
-#Guardamos la url base
-url_base="https://app.ticketmaster.com/discovery/v2/"
-
-#Guardamos nuestra key 
+URL_BASE="https://app.ticketmaster.com/discovery/v2/"
 key=os.environ["key"]
-#Función que recibe el nombre del artista y devuelve todos los eventos proximos del mismo
-def ev_artista (palabra_clave):
-    #Creamos el diccionario con los parámetros necesarios
-    payload = {'apikey':key,'keyword':palabra_clave}
-    #Guardamos la petición en una variable(urlbase + diccionario con parametros)
-    r=requests.get(url_base+'events',params=payload)
-    #Inicializamos las listas que vamos a usar
-    nombres=[]
-    fechas=[]
-    horas=[]
-    salas=[]
-    direccion=[]
-    ciudades=[]
-    paises=[]
-    urls=[]
-    urls_sala=[]
-    numelementos=0
-    #Comprobamos que la peticion es correcta
-    if r.status_code == 200:
-        url_gestionada=r.url
-        contenido = r.json()
-        #Si la palabra clave no está en la variable guardada imprime un mensaje
-        noms=[]
-        for i in contenido["_embedded"]["events"]:
-            noms.append(i["name"])
-        for nombre in noms:
-            if palabra_clave.upper() not in nombre.upper():
-                mensaje=("Lo siento!! No hay eventos para esa búsqueda")
-                return mensaje
-        else:
-            #Para cada elemento en el contenido añadimos la informacion a las listas
-            for elem in contenido["_embedded"]["events"]:
-                #Guardamos los nombres
-                nombres.append(elem["name"])
-                #Guardamos las ciudades
-                ciudades.append(elem["_embedded"]["venues"][0]["city"]["name"])
-                #Guardamos los paises
-                paises.append(elem["_embedded"]["venues"][0]["country"]["name"])
-                #GUardamos las salas
-                salas.append(elem["_embedded"]["venues"][0]["name"])
-                #Guardamos las direcciones y si no esta especificada
-                if "address" in elem["_embedded"]["venues"][0]:
-                    direccion.append(elem["_embedded"]["venues"][0]["address"]["line1"])
-                else:
-                    direccion.append("NO ESPECIFICADA")
-                #Guardamos las fechas
-                fechas.append(elem["dates"]["start"]["localDate"])
-                #Guardamos las horas y comprobamos si tiene la hora ya que algunos no la tienen
-                if "localTime" in elem["dates"]["start"]:
-                    horas.append(elem["dates"]["start"]["localTime"])
-                else:
-                    horas.append("NO ESPECIFICADA")
-                #URLS
-                urls.append(elem["url"])
-                urls_sala.append(elem["_embedded"]["venues"][0]["url"])
-                if elem["_embedded"]["venues"][0]["url"]:
-                    numelementos=numelementos+1
-            filtro=[nombres,paises,ciudades,salas,direccion,fechas,horas,urls,urls_sala,numelementos]
-        return filtro
+payload={'apikey':key,'size':50}
+opcion=int(input('''Selecciona un tipo de búsqueda:
+1. Eventos
+2. Atracción (Artista, grupo, equipo...)
+3. Lugar de eventos
+Opción: '''))
+while opcion < 1 or opcion > 3:
+	print("Opción incorrecta.")
+	opcion=int(input('''Selecciona un tipo de búsqueda:
+1. Eventos
+2. Atracción (Artista, grupo, equipo...)
+3. Lugar de eventos
+Opción: '''))
 
-artista=input("\nIntroduce el artista o palabra clave: ")
-#Si lo que devuelve la funcion no es una lista imprime el mensaje, sino es asi, imprime el contenido
-if type(ev_artista(artista)) != list:
-    print(ev_artista(artista))
-    print("Programa terminado.")
-else:
-    print("\nPara la búsqueda:",artista.upper(),"se han encontrado",ev_artista(artista)[9],"coincidencias.")
-    for nombre,pais,ciudad,sala,direc,fecha,hora,url,urlsala in zip((ev_artista(artista)[0]),(ev_artista(artista)[1]),(ev_artista(artista)[2]),(ev_artista(artista)[3]),(ev_artista(artista)[4]),(ev_artista(artista)[5]),(ev_artista(artista)[6]),(ev_artista(artista)[7]),(ev_artista(artista)[8])):
-        fecha_cambiada = datetime.strptime(fecha, '%Y-%m-%d')
-        fecha_str = datetime.strftime(fecha_cambiada, '%d/%m/%Y')
-        print("\n\nNOMBRE:",nombre,"\nPAIS:",pais,"\nCIUDAD:",ciudad,"\nSALA:",sala,"\nDIRECCION:",direc,"\nFECHA:",fecha_str,"\nHORA:",hora,"\nURL COMPRAR ENTRADA:",urlsala,"\n",url)
+if opcion == 1:
+	nombre=input("Introduce el nombre de un evento: ")
+	payload['keyword']=nombre
+	r=requests.get(URL_BASE+'events.json',params=payload)
+	if r.status_code == 200:
+		doc=r.json()
+		if doc.get("_embedded")==None:
+			print("De momento no hay eventos con ese nombre registrados en la base de datos.")
+		else:
+			for e in doc.get("_embedded").get("events"):
+				print(f"Evento: {e.get('name')}")
+				print(f"Fecha: {e.get('dates').get('start').get('localDate')}")
+				print(f"Tipo de evento: {e.get('_embedded').get('attractions')[0].get('classifications')[0].get('segment').get('name')}")
+				print(f"ID: {e.get('id')}")
+				print()
+			ID=input("Introduce la ID del evento que quieras ver: ")
+			del payload['keyword']
+			r2=requests.get(URL_BASE+'events/'+ID,params=payload)
+			evento=r2.json()
+			print(f"Evento: {evento.get('name')}")
+			print(f"Fecha: {evento.get('dates').get('start').get('localDate')}")
+			print(f"Ciudad: {evento.get('_embedded').get('venues')[0].get('city').get('name')}")
+			print(f"Lugar del evento: {evento.get('_embedded').get('venues')[0].get('name')}")
+			print(f"Tipo de evento: {evento.get('_embedded').get('attractions')[0].get('classifications')[0].get('segment').get('name')}")
+			if evento.get('priceRanges') != None:
+				print(f"Moneda: {evento.get('priceRanges')[0].get('currency')}")
+				print("Rango de precios:")
+				print(f"Mínimo: {evento.get('priceRanges')[0].get('min')}")
+				print(f"Máximo: {evento.get('priceRanges')[0].get('max')}")
+			print(f"Comprar ticket: {evento.get('url')}")
 
+elif opcion == 2:
+	nombre=input("Introduce el nombre de un artista, grupo, equipo, etc.: ")
+	payload['keyword']=nombre
+	r=requests.get(URL_BASE+'attractions.json',params=payload)
+	if r.status_code == 200:
+		doc=r.json()
+		if doc.get("_embedded")==None:
+			print("De momento no hay atracciones con ese nombre registrados en la base de datos.")
+		else:
+			for a in doc.get("_embedded").get("attractions"):
+				print(f"Atracción: {a.get('name')}")
+				print(f"Tipo de atracción: {a.get('classifications')[0].get('segment').get('name')}")
+				print(f"ID: {a.get('id')}")
+				print()
+			ID=input("Introduce la ID de la atracción que quieras ver: ")
+			del payload['keyword']
+			r2=requests.get(URL_BASE+'attractions/'+ID,params=payload)
+			atraccion=r2.json()
+			print(f"Atracción: {atraccion.get('name')}")
+			print(f"Tipo de atracción: {atraccion.get('classifications')[0].get('segment').get('name')}")
+			print(f"Género: {atraccion.get('classifications')[0].get('genre').get('name')}")
+			if atraccion.get('externalLinks') != None:	
+				print(f"Enlaces externos:")
+				for sitio in atraccion.get('externalLinks'):
+					print(sitio.upper())
+					for enlace in atraccion.get('externalLinks').get(sitio):
+						print(enlace.get('url'))
+			print(f"Número de eventos registrados en la base de datos: {atraccion.get('upcomingEvents').get('ticketmaster')}")
+			print(f"Eventos programados: {atraccion.get('url')}")
+
+elif opcion == 3:
+	nombre=input("Introduce un lugar de eventos: ")
+	payload['keyword']=nombre
+	r=requests.get(URL_BASE+'venues.json',params=payload)
+	if r.status_code == 200:
+		doc=r.json()
+		if doc.get("_embedded")==None:
+			print("De momento no hay lugares con ese nombre registrados en la base de datos.")
+		else:
+			for l in doc.get("_embedded").get("venues"):
+				print(f"Lugar: {l.get('name')}")
+				print(f"Ciudad: {l.get('city').get('name')}")
+				print(f"ID: {l.get('id')}")
+				print()
+			ID=input("Introduce la ID del lugar que quieras ver: ")
+			del payload['keyword']
+			r2=requests.get(URL_BASE+'venues/'+ID,params=payload)
+			lugar=r2.json()
+			print(f"Lugar: {lugar.get('name')}")
+			print(f"Ciudad: {lugar.get('city').get('name')}")
+			print(f"País: {lugar.get('country').get('name')}")
+			print(f"Dirección: {lugar.get('address').get('line1')}")
+			print(f"Número de eventos programados: {lugar.get('upcomingEvents').get('_total')}")
+			print(f"Eventos programados: {lugar.get('url')}")
