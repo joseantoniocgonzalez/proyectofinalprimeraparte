@@ -5,7 +5,7 @@
 
 #Vamos a usar variables de entorno para guardar nuestra key.
 # Deremos exportar la clave de nuestra cuenta en una variable de entorno desde la terminal:
-# export key ="**************************"
+# exportkey ="**************************"
 
 #Lo primero es importar la librería requests
 import requests
@@ -23,11 +23,11 @@ from datetime import datetime
 url_base="https://app.ticketmaster.com/discovery/v2/"
 
 #En una variable key, guardamos por el diccionario os.environ nuestra key
-key=os.environ["apikey"]
+key=os.environ["key"]
 
 
 #Obtener el total de páginas:
-payload = {'apikey':key}
+payload = {'key':key}
 p = requests.get(url_base+'events',params=payload)
 if p.status_code == 200:
     doc = p.json()
