@@ -7,12 +7,11 @@
 # Deremos exportar la clave de nuestra cuenta en una variable de entorno desde la terminal:
 # export key ="**************************"
 
-#Lo primero es importar la librería requests
-import requests
-#Importamos la libreria json
-import json
-#Importar la librería os que va leer nuestra variable de entorno
-import os
+from flask import Flask, render_template, abort, request
+import os, requests, json
+
+app = Flask(__name__)
+
 
 #Importar las fechas
 from datetime import datetime
