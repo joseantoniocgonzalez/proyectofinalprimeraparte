@@ -4,8 +4,8 @@
 import requests
 import os
 URL_BASE="https://app.ticketmaster.com/discovery/v2/"
-key=os.environ["key"]
-payload={'apikey':key,'size':50}
+ key=os.environ["key"]
+payload={'key':key,'size':50}
 opcion=int(input('''Selecciona un tipo de búsqueda:
 1. Eventos
 2. Atracción (Artista, grupo, equipo...)
