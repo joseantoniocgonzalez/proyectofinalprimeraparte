@@ -7,7 +7,13 @@
 
 #Vamos a usar variables de entorno para guardar nuestra key.
 # Deremos exportar la clave de nuestra cuenta en una variable de entorno en  la terminal:
-# export key ="**************************"
+
+#Para ello necesitas autentificarte con la API key.
+# Esta API utiliza la respuesta json.
+
+#Vamos a usar variables de entorno para guardar nuestra key.
+# Deremos exportar la clave de nuestra cuenta en una variable de entorno desde la terminal:
+# exportkey ="**************************"
 
 
 #importamos  la librería requests
@@ -17,6 +23,7 @@ import json
 #Importar la librería os que va leer nuestra variable de entorno
 import os
 
+
 #Importar las fechas
 from datetime import datetime
 
@@ -24,7 +31,10 @@ from datetime import datetime
 url_base="https://app.ticketmaster.com/discovery/v2/"
 
 #En una variable key, guardamos por el diccionario os.environ nuestra key
-key=os.environ["apikey"]
+key=os.environ["key"]
+
+
+
 #Guardamos en una variable el código del país, en esta caso España
 code='ES'
 #Vamos a crear un diccionario que guarde nuestros parámetros
