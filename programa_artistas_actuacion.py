@@ -20,7 +20,7 @@ import os
 from datetime import datetime
 
 #Guardamos la url base
-url_base="https://app.ticketmaster.com/discovery/v2/"
+url_base="https://app.ticketmaster.com/discovery/v2/events.json?attractionId=K8vZ917Gku7&countryCode=CA&apikey=IOjtnCVLEiI8DdQRUEWJPixje8hmKyXR"
 
 #En una variable key, guardamos por el diccionario os.environ nuestra key
 key=os.environ["key"]
