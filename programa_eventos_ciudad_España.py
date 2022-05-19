@@ -33,15 +33,9 @@ url_base="https://app.ticketmaster.com/discovery/v2/"
 #En una variable key, guardamos por el diccionario os.environ nuestra key
 key=os.environ["key"]
 
-
-
-#Guardamos en una variable el código del país, en esta caso España
-code='ES'
-#Vamos a crear un diccionario que guarde nuestros parámetros
-payload = {'apikey':key,'countryCode':code}
-
-#Hacemos la petición, guardandola en una variable r, añadiendo los parametros que necesitamos usando params e indicando el diccionario creado previamente.
-r=requests.get(url_base+'venues.json',params=payload)
+key=os.environ["key"]
+payload={'apikey':key,'countryCode':'ES','size':20,'sort':'date,desc'}
+r=requests.get(URL_BASE+'events.json',params=payload)
 
 
 
