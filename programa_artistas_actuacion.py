@@ -27,7 +27,7 @@ key=os.environ["exportkey"]
 #Función que recibe el nombre del artista y devuelve todos los eventos proximos del mismo
 def ev_artista (palabra_clave):
     #Creamos el diccionario con los parámetros necesarios
-    payload = {'apikey':key,'keyword':palabra_clave}
+    payload = {'exportkey':key,'keyword':palabra_clave}
     #Guardamos la petición en una variable(urlbase + diccionario con parametros)
     r=requests.get(url_base+'events',params=payload)
     #Inicializamos las listas que vamos a usar

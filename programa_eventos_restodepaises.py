@@ -123,11 +123,14 @@ codigos_paises=["US (United States Of America)",
 "VE (Venezuela)"]
 
 
+
 #Función que recibe el código del país y devuelve el nombre, la sala, la dirección, la fecha y la url
 def mostrar_evento (codigo_pais,numero_pagina):
-    payload = {'exportkey':key,'countryCode':codigo_pais,'page':numero_pagina}
+    #Creamos el diccionario con los parámetros necesarios
+    payload = {'apikey':key,'countryCode':codigo_pais,'page':numero_pagina}
+    #Guardamos la petición en una variable(urlbase + diccionario con parametros)
     r=requests.get(url_base+'events',params=payload)
-    #Inicializamos las listas que vamos a usar
+    #Inicializamos las listas necesarias
     nombres=[]
     fechas=[]
     horas=[]
@@ -138,11 +141,12 @@ def mostrar_evento (codigo_pais,numero_pagina):
     #Comprobamos que la peticion es correcta
     if r.status_code == 200:
         url_gestionada=r.url
+        #Guardamos el contenido en json
         contenido = r.json()
-        #Si el total de elementos es igual a 0 devuelve un mensaje
+        # Si el total de elementos es igual a 0 devuelve un mensaje
         total_pag=contenido["page"].get("totalElements")
         if total_pag == 0:
-            mensaje=("Lo siento!! No hay eventos en el país indicado")
+            mensaje=("No hay eventos en el país indicado")
             return mensaje
         else:
             #Añadimos la información a cada lista
@@ -150,7 +154,7 @@ def mostrar_evento (codigo_pais,numero_pagina):
                 nombres.append(elem["name"])
                 urls.append(elem["url"])
                 fechas.append(elem["dates"]["start"]["localDate"])
-                #Comprobamos si esta la hora porque a veces no esta
+                #A veces la hora no esta especificada así que nos aseguramos de ello.
                 if "localTime" in elem["dates"]["start"]:
                     horas.append(elem["dates"]["start"]["localTime"])
                 else:
@@ -167,8 +171,9 @@ def mostrar_evento (codigo_pais,numero_pagina):
 #Inicializamos las variables codigo de pais vacío y numero por defecto en 1, para que sea la primera página del contenido
 codpais=""
 num=1
-
+#Mientras numero de pagina sea distinto de * hacemos todo el procedimiento
 while num != 0:
+    #Pedimos al usuario el código del país
     if codpais == "":
         codpais=input("\nIntroduce el código del pais: ")
     else:
@@ -178,11 +183,13 @@ while num != 0:
     for i in codigos_paises:
         codigos.append(i[:2])
 
-    #Validamos codigo pais
+    #Validar codigo pais
     while codpais not in codigos:
-        print("\nError!!!Codigo del Pais Incorrecto.Intentalo de nuevo.")
+        print("\n¡Error!")
+        print("\n-> El Código del país no es correcto.")
+        print("\n-> El Código se compone de dos caracteres en mayúsculas")
         respuesta=input("\n¿Quieres ver las lista de códigos disponible?"'(s/n): ')
-        #Validamos la respuesta
+        #Validar respuesta
         if 's' not in respuesta and 'n' not in respuesta:
             print("\nPorfavor introduce s o n para responder")
             respuesta=input("\n¿Quieres ver las lista de códigos disponible?"'(s/n): ')
@@ -193,11 +200,13 @@ while num != 0:
         else:
             codpais=input("\nIntroduce el código del pais: ")
 
-    #Si lo que devuelve la funcion no es una lista imprime el mensaje y sino, imprime el contenido.
+    #MOSTRAR CONTENIDO
+    #Si lo que devuelve la funcion no es una lista imprime el mensaje.
     if type(mostrar_evento(codpais,num)) != list: 
         print(mostrar_evento(codpais,num))
         print("Programa terminado.")
         break
+    #Si no, impime el contenido
     else:
         for nombre,fecha,hora,sala,direc,ciudad,url in zip((mostrar_evento(codpais,num)[0]),(mostrar_evento(codpais,num)[1]),(mostrar_evento(codpais,num)[2]),(mostrar_evento(codpais,num)[3]),(mostrar_evento(codpais,num)[4]),(mostrar_evento(codpais,num)[5]),(mostrar_evento(codpais,num)[6])):
             fecha_cambiada = datetime.strptime(fecha, '%Y-%m-%d')
@@ -211,3 +220,5 @@ while num != 0:
         print("Programa terminado.")
         break
 
+
+#while para las paginas
