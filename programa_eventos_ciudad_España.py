@@ -16,6 +16,7 @@
 # exportkey ="**************************"
 
 
+
 #importamos  la librería requests
 import requests
 #Importamos la libreria json
@@ -24,28 +25,36 @@ import json
 import os
 
 
+
+
 #Importar las fechas
 from datetime import datetime
+
+
 
 #Guardamos la url base
 url_base="https://app.ticketmaster.com/discovery/v2/"
 
-#En una variable key, guardamos por el diccionario os.environ nuestra key
+#En la variable key, guardamos por el diccionario os.environ nuestra key
 key=os.environ["exportkey"]
 
 payload={'apikey':key,'countryCode':'ES','size':20,'sort':'date,desc'}
 r=requests.get(url_base+'events.json',params=payload)
 
 
-#Guardamos en una variable el código del país, en esta caso como queremos poner los eventos de españa pondremos 'ES'
+#en estavariable el código del país, en esta caso como queremos poner los eventos de españa pondremos 'ES'
 code='ES'
-#Vamos a crear un diccionario que guarde nuestros parámetros
+#creamos un diccionario que guarde nuestros parámetros
 payload = {'apikey':key,'countryCode':code}
 
-#Guardamos en una variable la peticion, y añadimos los parametros tambien.
+
+
+#Aqui  en ests variable la peticion, y añadimos los parametros tambien.
 r=requests.get(url_base+'venues.json',params=payload)
 
-#Función que recibe un identificador del lugar y devuelve el nombre del evento y la fecha en la que está previsto.
+# con función que recibe un identificador del lugar y devuelve el nombre del evento y la fecha en la que está previsto.
+
+
 
 def mostrar_artista_fecha (id_lugar):
     parametros = {'apikey':key,'venueId':id_lugar}
@@ -60,8 +69,8 @@ def mostrar_artista_fecha (id_lugar):
         filtro=[nombres,fechas]
         return filtro
 
-#Vamos a consultar el estado de la peticion para comprobar que no hay errores.
-#Inicializamos las listas necesarias.
+#Consulmtamos el estado de la peticion para comprobar que no hay errores.
+#Iniciamos las listas necesarias.
 salas=[]
 lugares=[]
 identificadores=[]
@@ -72,6 +81,8 @@ if r.status_code == 200:
         lugares.append(lugar["state"]["name"])
         identificadores.append(lugar["id"])
     filtro=[salas,lugares,identificadores]
+
+    
     #Mostramos la sala y el lugar donde se encuentra. Segun el identificador del lugar muestra el nombre del artista y la fecha en la que actúa.
     for sala,lugar,ident in zip(filtro[0],filtro[1],filtro[2]):
         if mostrar_artista_fecha(ident):

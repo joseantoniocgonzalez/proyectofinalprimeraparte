@@ -13,6 +13,6 @@ Sería muy interesante que buscaras una API (o APIs) de algún tema que te inter
 
 ###### PARTE 1:Debes entregar al menos tres programas python que realicen peticiones a la API (o APIs) que vayas a utilizar en la práctica.
 
-- Programa en python que nos monstrara  la ciudad y la sala y la fecha donde que proximamenta van en nuestro pais  (España).
+- Programa en python que nos monstrara  la ciudad y la sala y la fecha donde que los proximos en nuestro pais  (España).
 - Programa en python nos mostrara   que mostrara todos los eventos según código del pais o ciudad, con los eventos, fecha y lugar con  la url para comprar la entrada
 - Programa en python que mostrara los eventos del artista que introduzca el usuario.
