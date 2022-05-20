@@ -1,13 +1,4 @@
 
-#Programa en python que muestra los eventos internacionales según la palabra clave (artista) que introduzca el usuario. 
-
-#Para ello necesitas autentificarte con la API key.
-# Esta API utiliza la respuesta json.
-
-#Vamos a usar variables de entorno para guardar nuestra key
-# Deremos exportar la clave de nuestra cuenta en una variable de entorno desde la terminal:
-# exportkey ="**************************"
-
 #Lo primero es importar la librería requests
 import requests
 #Importamos la libreria json
@@ -30,7 +21,7 @@ def ev_artista (palabra_clave):
     payload = {'exportkey':key,'keyword':palabra_clave}
     #Guardamos la petición en una variable(urlbase + diccionario con parametros)
     r=requests.get(url_base+'events',params=payload)
-    #Inicializamos las listas que vamos a usar
+    #Inicializamos las listas necesarias
     nombres=[]
     fechas=[]
     horas=[]
@@ -44,34 +35,35 @@ def ev_artista (palabra_clave):
     #Comprobamos que la peticion es correcta
     if r.status_code == 200:
         url_gestionada=r.url
+        #Guardamos el contenido en json
         contenido = r.json()
-        #Si la palabra clave no está en la variable guardada imprime un mensaje
+        # Si la palabra clave no está en la variable guardada imprime un mensaje
         noms=[]
         for i in contenido["_embedded"]["events"]:
             noms.append(i["name"])
         for nombre in noms:
             if palabra_clave.upper() not in nombre.upper():
-                mensaje=("Lo siento!! No hay eventos para esa búsqueda")
+                mensaje=("No hay eventos para esa búsqueda")
                 return mensaje
         else:
             #Para cada elemento en el contenido añadimos la informacion a las listas
             for elem in contenido["_embedded"]["events"]:
-                #Guardamos los nombres
+                #NOMBRES
                 nombres.append(elem["name"])
-                #Guardamos las ciudades
+                #CIUDADES
                 ciudades.append(elem["_embedded"]["venues"][0]["city"]["name"])
-                #Guardamos los paises
+                #PAISES
                 paises.append(elem["_embedded"]["venues"][0]["country"]["name"])
-                #GUardamos las salas
+                #SALAS
                 salas.append(elem["_embedded"]["venues"][0]["name"])
-                #Guardamos las direcciones y si no esta especificada
+                #DIRECCIONES
                 if "address" in elem["_embedded"]["venues"][0]:
                     direccion.append(elem["_embedded"]["venues"][0]["address"]["line1"])
                 else:
                     direccion.append("NO ESPECIFICADA")
-                #Guardamos las fechas
+                #FECHAS
                 fechas.append(elem["dates"]["start"]["localDate"])
-                #Guardamos las horas y comprobamos si tiene la hora ya que algunos no la tienen
+                #HORAS: A veces la hora no esta especificada así que nos aseguramos de ello.
                 if "localTime" in elem["dates"]["start"]:
                     horas.append(elem["dates"]["start"]["localTime"])
                 else:
@@ -85,14 +77,16 @@ def ev_artista (palabra_clave):
         return filtro
 
 artista=input("\nIntroduce el artista o palabra clave: ")
-#Si lo que devuelve la funcion no es una lista imprime el mensaje, sino es asi, imprime el contenido
+#Si lo que devuelve la funcion no es una lista imprime el mensaje.
 if type(ev_artista(artista)) != list:
     print(ev_artista(artista))
     print("Programa terminado.")
+    
+#Si no, impime el contenido
 else:
+    #MOSTRAR CONTENIDO
     print("\nPara la búsqueda:",artista.upper(),"se han encontrado",ev_artista(artista)[9],"coincidencias.")
     for nombre,pais,ciudad,sala,direc,fecha,hora,url,urlsala in zip((ev_artista(artista)[0]),(ev_artista(artista)[1]),(ev_artista(artista)[2]),(ev_artista(artista)[3]),(ev_artista(artista)[4]),(ev_artista(artista)[5]),(ev_artista(artista)[6]),(ev_artista(artista)[7]),(ev_artista(artista)[8])):
         fecha_cambiada = datetime.strptime(fecha, '%Y-%m-%d')
         fecha_str = datetime.strftime(fecha_cambiada, '%d/%m/%Y')
         print("\n\nNOMBRE:",nombre,"\nPAIS:",pais,"\nCIUDAD:",ciudad,"\nSALA:",sala,"\nDIRECCION:",direc,"\nFECHA:",fecha_str,"\nHORA:",hora,"\nURL COMPRAR ENTRADA:",urlsala,"\n",url)
-
