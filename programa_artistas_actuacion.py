@@ -1,11 +1,11 @@
-#Programa en python que muestra los eventos internacionales según la palabra clave (artista) que introduzca el usuario. 
+#Programa en python que muestra los eventos internacionales  
 
 #Para ello necesitas autentificarte con la API key.
 # Esta API utiliza la respuesta json.
 
 #Vamos a usar variables de entorno para guardar nuestra key.
 # Deremos exportar la clave de nuestra cuenta en una variable de entorno desde la terminal:
-# export key ="**************************"
+# exportkey ="**************************"
 
 #Lo primero es importar la librería requests
 import requests
@@ -20,10 +20,10 @@ from datetime import datetime
 #Guardamos la url base
 url_base="https://app.ticketmaster.com/discovery/v2/"
 
-#En una variable key, guardamos por el diccionario os.environ nuestra key
+#Guardamos por el diccionario os.environ nuestra key
 key=os.environ["exportkey"]
 
-#Función que recibe el nombre del artista y devuelve todos los eventos proximos del mismo
+#En esta funcion  que recibe el nombre del artista y devuelve todos los eventos proximos del mismo
 def ev_artista (palabra_clave):
     #Creamos el diccionario con los parámetros necesarios
     payload = {'apikey':key,'keyword':palabra_clave}
@@ -84,12 +84,17 @@ def ev_artista (palabra_clave):
             filtro=[nombres,paises,ciudades,salas,direccion,fechas,horas,urls,urls_sala,numelementos]
         return filtro
 
+
+
 artista=input("\nIntroduce el artista o palabra clave: ")
 #Si lo que devuelve la funcion no es una lista imprime el mensaje.
 if type(ev_artista(artista)) != list:
     print(ev_artista(artista))
     print("Programa terminado.")
-    
+
+
+
+
 #Si no, impime el contenido
 else:
     #MOSTRAR CONTENIDO
