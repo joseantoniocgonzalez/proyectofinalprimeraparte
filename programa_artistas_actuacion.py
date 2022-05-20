@@ -15,7 +15,6 @@ url_base="https://app.ticketmaster.com/discovery/v2/"
 #En una variable key, guardamos por el diccionario os.environ nuestra key
 key=os.environ["exportkey"]
 
-key=os.environ["key"]
 payload={'apikey':key,'size':50}
 opcion=int(input('''Selecciona un filtro de búsqueda:
 1. Ciudad
