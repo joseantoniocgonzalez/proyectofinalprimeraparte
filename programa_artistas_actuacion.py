@@ -10,7 +10,7 @@ import os
 from datetime import datetime
 
 #Guardamos la url base
-url_base="https://app.ticketmaster.com/discovery/v2/"
+URL_BASE="https://app.ticketmaster.com/discovery/v2/"
 
 #En una variable key, guardamos por el diccionario os.environ nuestra key
 key=os.environ["exportkey"]
